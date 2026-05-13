@@ -1096,6 +1096,34 @@ p {
   font-size: 14px;
 }
 
+.vr-help-tips {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 70px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.vr-help-tips span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  gap: 7px;
+  padding: 7px 10px;
+  color: #ffffff;
+  background: rgba(13, 79, 61, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(11, 42, 33, 0.18);
+  backdrop-filter: blur(10px);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .vr-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1354,6 +1382,19 @@ p {
 
   .three-viewer {
     min-height: 380px;
+  }
+
+  .vr-help-tips {
+    position: static;
+    padding: 12px 12px 0;
+    background: #ffffff;
+  }
+
+  .vr-help-tips span {
+    color: var(--primary-strong);
+    background: var(--primary-soft);
+    border-color: rgba(23, 105, 79, 0.12);
+    box-shadow: none;
   }
 }
 

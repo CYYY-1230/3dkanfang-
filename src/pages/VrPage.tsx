@@ -1,4 +1,4 @@
-import { ArrowLeft, BedDouble, ChefHat, Sofa } from "lucide-react";
+import { ArrowLeft, BedDouble, ChefHat, Hand, MousePointer2, Palette, Sofa } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { FavoriteButton } from "../components/FavoriteButton";
@@ -58,6 +58,20 @@ export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
           <div className="vr-status">
             <span>{activeRoomLabel}</span>
             <strong>{activeStyle.name}</strong>
+          </div>
+          <div className="vr-help-tips" aria-label="3D 看房操作提示">
+            <span>
+              <Hand size={16} aria-hidden="true" />
+              拖动查看房间
+            </span>
+            <span>
+              <MousePointer2 size={16} aria-hidden="true" />
+              点击切换客厅/卧室/厨房
+            </span>
+            <span>
+              <Palette size={16} aria-hidden="true" />
+              右侧可换装修风格
+            </span>
           </div>
           <ThreeRoomViewer decorStyle={activeStyle} activeRoom={activeRoom} />
           <div className="vr-toolbar" aria-label="房间导航">
