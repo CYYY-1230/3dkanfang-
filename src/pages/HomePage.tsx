@@ -1,4 +1,4 @@
-import { ArrowRight, Building2, MapPinned, TrainFront } from "lucide-react";
+import { ArrowRight, Building2, Cuboid, MapPinned, Search, TrainFront } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SimulationBadge } from "../components/SimulationBadge";
 import { communities } from "../data/demoData";
@@ -16,6 +16,16 @@ export function HomePage() {
           <p>
             从小区位置、周边配套、户型信息到 3D 示意空间，这个 Demo 帮普通买房用户快速完成第一轮筛选。
           </p>
+          <div className="hero-actions">
+            <Link className="button button-primary" to={`/communities/${communities[0].id}`}>
+              <Search size={18} aria-hidden="true" />
+              开始看房
+            </Link>
+            <Link className="button button-secondary" to="/vr/river-89">
+              <Cuboid size={18} aria-hidden="true" />
+              体验 3D 看房
+            </Link>
+          </div>
           <div className="hero-stats" aria-label="演示数据概览">
             <span>
               <strong>{communities.length}</strong>
@@ -30,6 +40,26 @@ export function HomePage() {
               种装修风格
             </span>
           </div>
+        </div>
+
+        <div className="home-visual" aria-label="明亮住宅看房示意">
+          <div className="hero-photo" />
+          <div className="hero-visual-card">
+            <span>今日推荐</span>
+            <strong>{communities[0].name}</strong>
+            <small>{communities[0].district} · {communities[0].priceRange}</small>
+          </div>
+          <div className="hero-visual-note">
+            <MapPinned size={18} aria-hidden="true" />
+            先确认位置，再进入户型和 3D 空间
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <div className="section-heading">
+          <span className="eyebrow">地图找房</span>
+          <h2>把小区位置先看明白</h2>
         </div>
         <div className="map-panel" aria-label="城市地图示意">
           <div className="map-grid" />
