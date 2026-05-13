@@ -63,7 +63,13 @@ export function HomePage() {
         </div>
         <div className="map-panel" aria-label="城市地图示意">
           <div className="map-grid" />
+          <div className="map-district map-district-core">核心区</div>
+          <div className="map-district map-district-river">滨水区</div>
+          <div className="map-district map-district-green">生态区</div>
           <div className="map-river" />
+          <div className="map-road map-road-main" />
+          <div className="map-road map-road-side" />
+          <div className="map-road map-road-loop" />
           {communities.map((community) => (
             <Link
               to={`/communities/${community.id}`}
