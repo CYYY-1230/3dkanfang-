@@ -49,6 +49,7 @@ export function FavoritesPage({
               <article className="favorite-card" key={layout.id}>
                 <FloorPlan rooms={layout.floorPlan} compact />
                 <div className="card-content">
+                  <span className="card-kicker">已收藏</span>
                   <h3>{layout.name}</h3>
                   <p>{community.name} / {building.name}</p>
                   <div className="meta-grid">

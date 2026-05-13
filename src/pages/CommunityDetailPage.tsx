@@ -78,6 +78,7 @@ export function CommunityDetailPage() {
                 <span>{building.cover}</span>
               </div>
               <div className="card-content">
+                <span className="card-kicker">楼盘</span>
                 <h3>{building.name}</h3>
                 <p>{building.intro}</p>
                 <div className="meta-grid">

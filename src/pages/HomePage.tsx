@@ -97,6 +97,7 @@ export function HomePage() {
                 <Building2 size={22} aria-hidden="true" />
               </div>
               <div className="card-content">
+                <span className="card-kicker">小区推荐</span>
                 <h3>{community.name}</h3>
                 <p>{community.district} · {community.priceRange}</p>
                 <div className="info-line">

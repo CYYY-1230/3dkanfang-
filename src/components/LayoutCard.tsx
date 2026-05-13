@@ -18,6 +18,7 @@ export function LayoutCard({ layout, isFavorite, onToggleFavorite }: LayoutCardP
       </div>
       <div className="layout-card-body">
         <div>
+          <span className="card-kicker">户型</span>
           <h3>{layout.name}</h3>
           <p>{layout.thumbnail}</p>
         </div>
