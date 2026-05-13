@@ -31,6 +31,7 @@ export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
     () => decorStyles.find((style) => style.key === activeStyleKey) ?? decorStyles[0],
     [activeStyleKey],
   );
+  const activeRoomLabel = roomOptions.find((room) => room.key === activeRoom)?.label ?? "客厅";
 
   if (!layout || !building || !community) {
     return <Navigate to="/" replace />;
@@ -54,6 +55,10 @@ export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
 
       <section className="vr-layout">
         <div className="vr-stage">
+          <div className="vr-status">
+            <span>{activeRoomLabel}</span>
+            <strong>{activeStyle.name}</strong>
+          </div>
           <ThreeRoomViewer decorStyle={activeStyle} activeRoom={activeRoom} />
           <div className="vr-toolbar" aria-label="房间导航">
             {roomOptions.map((room) => {
@@ -74,7 +79,10 @@ export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
         </div>
 
         <aside className="vr-side-panel">
-          <h2>装修风格</h2>
+          <div>
+            <span className="card-kicker">当前方案</span>
+            <h2>装修风格</h2>
+          </div>
           <div className="style-options">
             {decorStyles.map((style) => (
               <button
