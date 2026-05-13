@@ -1,7 +1,7 @@
 import { ArrowRight, Building2, MapPinned, School, ShoppingBag } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
-import { getBuildingsByCommunity, getCommunity } from "../utils/dataLookup";
+import { useHouseData } from "../context/HouseDataContext";
 
 const amenityIcon = {
   交通: MapPinned,
@@ -13,9 +13,21 @@ const amenityIcon = {
 
 export function CommunityDetailPage() {
   const { communityId } = useParams();
+  const { getBuildingsByCommunity, getCommunity, status } = useHouseData();
   const community = getCommunity(communityId);
 
   if (!community) {
+    if (status === "loading") {
+      return (
+        <div className="page-flow">
+          <section className="empty-state">
+            <h2>正在读取房源数据</h2>
+            <p>如果已经填写 Supabase 配置，这里会自动加载云端小区信息。</p>
+          </section>
+        </div>
+      );
+    }
+
     return <Navigate to="/" replace />;
   }
 

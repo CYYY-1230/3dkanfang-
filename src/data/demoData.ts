@@ -11,6 +11,7 @@ export const communities: Community[] = [
     intro:
       "靠近江景步道和地铁站，适合希望通勤方便、周末能散步放松的家庭。页面内容为示意内容，不代表真实房源。",
     mapPosition: { x: 61, y: 39 },
+    lngLat: [120.199, 30.209],
     amenities: [
       { kind: "交通", name: "江畔路地铁站", distance: "约 650m" },
       { kind: "学校", name: "滨江实验学校", distance: "约 900m" },
@@ -30,6 +31,7 @@ export const communities: Community[] = [
     intro:
       "周边公园和学校资源较多，生活氛围安静，适合重视居住舒适度和孩子成长环境的家庭。",
     mapPosition: { x: 34, y: 28 },
+    lngLat: [120.053, 30.275],
     amenities: [
       { kind: "交通", name: "绿汀路公交枢纽", distance: "约 480m" },
       { kind: "学校", name: "文澜小学", distance: "约 760m" },
@@ -49,6 +51,7 @@ export const communities: Community[] = [
     intro:
       "城市中心配套成熟，地铁、商场和医院都比较近，适合看重通勤和生活便利的人群。",
     mapPosition: { x: 72, y: 61 },
+    lngLat: [120.193, 30.264],
     amenities: [
       { kind: "交通", name: "庆春广场地铁站", distance: "约 420m" },
       { kind: "学校", name: "采荷二小", distance: "约 980m" },

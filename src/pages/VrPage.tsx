@@ -4,9 +4,8 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { FavoriteButton } from "../components/FavoriteButton";
 import { PageHeader } from "../components/PageHeader";
 import { ThreeRoomViewer } from "../components/ThreeRoomViewer";
-import { decorStyles } from "../data/demoData";
+import { useHouseData } from "../context/HouseDataContext";
 import type { StyleKey } from "../types";
-import { getLayoutContext } from "../utils/dataLookup";
 
 type RoomKey = "living" | "bedroom" | "kitchen";
 
@@ -23,6 +22,7 @@ const roomOptions: Array<{ key: RoomKey; label: string; icon: typeof Sofa }> = [
 
 export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
   const { layoutId } = useParams();
+  const { decorStyles, getLayoutContext, status } = useHouseData();
   const { layout, building, community } = getLayoutContext(layoutId ?? "");
   const [activeStyleKey, setActiveStyleKey] = useState<StyleKey>("modern");
   const [activeRoom, setActiveRoom] = useState<RoomKey>("living");
@@ -34,6 +34,17 @@ export function VrPage({ isFavorite, onToggleFavorite }: VrPageProps) {
   const activeRoomLabel = roomOptions.find((room) => room.key === activeRoom)?.label ?? "客厅";
 
   if (!layout || !building || !community) {
+    if (status === "loading") {
+      return (
+        <div className="page-flow">
+          <section className="empty-state">
+            <h2>正在准备 3D 看房</h2>
+            <p>如果已经填写 Supabase 配置，这里会自动加载云端户型信息。</p>
+          </section>
+        </div>
+      );
+    }
+
     return <Navigate to="/" replace />;
   }
 

@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { FavoriteButton } from "../components/FavoriteButton";
 import { FloorPlan } from "../components/FloorPlan";
 import { PageHeader } from "../components/PageHeader";
-import { getLayoutContext } from "../utils/dataLookup";
+import { useHouseData } from "../context/HouseDataContext";
 
 type LayoutDetailPageProps = {
   isFavorite: (layoutId: string) => boolean;
@@ -12,9 +12,21 @@ type LayoutDetailPageProps = {
 
 export function LayoutDetailPage({ isFavorite, onToggleFavorite }: LayoutDetailPageProps) {
   const { layoutId } = useParams();
+  const { getLayoutContext, status } = useHouseData();
   const { layout, building, community } = getLayoutContext(layoutId ?? "");
 
   if (!layout || !building || !community) {
+    if (status === "loading") {
+      return (
+        <div className="page-flow">
+          <section className="empty-state">
+            <h2>正在读取户型详情</h2>
+            <p>如果已经填写 Supabase 配置，这里会自动加载云端户型信息。</p>
+          </section>
+        </div>
+      );
+    }
+
     return <Navigate to="/" replace />;
   }
 

@@ -2,7 +2,7 @@ import { Eye, HeartOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FloorPlan } from "../components/FloorPlan";
 import { PageHeader } from "../components/PageHeader";
-import { getLayoutContext } from "../utils/dataLookup";
+import { useHouseData } from "../context/HouseDataContext";
 
 type FavoritesPageProps = {
   favoriteIds: string[];
@@ -17,6 +17,7 @@ export function FavoritesPage({
   onToggleFavorite,
   onRemoveFavorite,
 }: FavoritesPageProps) {
+  const { getLayoutContext } = useHouseData();
   const favoriteLayouts = favoriteIds
     .map((id) => getLayoutContext(id))
     .filter((item) => item.layout && item.building && item.community);

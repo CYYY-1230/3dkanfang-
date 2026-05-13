@@ -18,6 +18,7 @@ export type Community = {
     x: number;
     y: number;
   };
+  lngLat: [number, number];
   amenities: Amenity[];
   buildingIds: string[];
 };

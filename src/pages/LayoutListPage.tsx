@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { LayoutCard } from "../components/LayoutCard";
 import { PageHeader } from "../components/PageHeader";
-import { getBuilding, getCommunity, getLayoutsByBuilding } from "../utils/dataLookup";
+import { useHouseData } from "../context/HouseDataContext";
 
 type LayoutListPageProps = {
   isFavorite: (layoutId: string) => boolean;
@@ -10,10 +10,22 @@ type LayoutListPageProps = {
 
 export function LayoutListPage({ isFavorite, onToggleFavorite }: LayoutListPageProps) {
   const { buildingId } = useParams();
+  const { getBuilding, getCommunity, getLayoutsByBuilding, status } = useHouseData();
   const building = getBuilding(buildingId);
   const community = building ? getCommunity(building.communityId) : undefined;
 
   if (!building || !community) {
+    if (status === "loading") {
+      return (
+        <div className="page-flow">
+          <section className="empty-state">
+            <h2>正在读取户型列表</h2>
+            <p>如果已经填写 Supabase 配置，这里会自动加载云端户型信息。</p>
+          </section>
+        </div>
+      );
+    }
+
     return <Navigate to="/" replace />;
   }
 

@@ -1,8 +1,9 @@
 import { ArrowRight, Building2, Cuboid, MapPinned, Search, TrainFront } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { AmapCommunityMap } from "../components/AmapCommunityMap";
 import { SimulationBadge } from "../components/SimulationBadge";
-import { buildings, communities, layouts } from "../data/demoData";
+import { getDataSourceLabel, useHouseData } from "../context/HouseDataContext";
 import type { Layout } from "../types";
 
 type AreaFilter = "all" | "compact" | "comfort" | "large";
@@ -65,6 +66,7 @@ function matchesPrice(layout: Layout, filter: PriceFilter) {
 }
 
 export function HomePage() {
+  const { buildings, communities, decorStyles, layouts, notice, source } = useHouseData();
   const [areaFilter, setAreaFilter] = useState<AreaFilter>("all");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
   const [roomFilter, setRoomFilter] = useState<RoomFilter>("all");
@@ -83,8 +85,11 @@ export function HomePage() {
         .filter(({ layout }) => matchesArea(layout, areaFilter))
         .filter(({ layout }) => matchesPrice(layout, priceFilter))
         .filter(({ layout }) => roomFilter === "all" || getRoomCount(layout) === roomFilter),
-    [areaFilter, priceFilter, roomFilter],
+    [areaFilter, buildings, communities, layouts, priceFilter, roomFilter],
   );
+
+  const recommendedCommunity = communities[0];
+  const recommendedLayout = layouts[0];
 
   return (
     <div className="page-flow">
@@ -92,18 +97,20 @@ export function HomePage() {
         <div className="home-copy">
           <div className="eyebrow-row">
             <span className="eyebrow">地图找房 · 3D 看户型</span>
-            <SimulationBadge />
+            {source === "demo" ? <SimulationBadge /> : null}
+            <span className="data-source-badge">{getDataSourceLabel(source)}</span>
           </div>
           <h1>先在线上看清楚，再决定要不要线下看房</h1>
           <p>
             从小区位置、周边配套、户型信息到 3D 示意空间，这个 Demo 帮普通买房用户快速完成第一轮筛选。
           </p>
+          {notice ? <p className="data-notice">{notice}</p> : null}
           <div className="hero-actions">
-            <Link className="button button-primary" to={`/communities/${communities[0].id}`}>
+            <Link className="button button-primary" to={`/communities/${recommendedCommunity.id}`}>
               <Search size={18} aria-hidden="true" />
               开始看房
             </Link>
-            <Link className="button button-secondary" to="/vr/river-89">
+            <Link className="button button-secondary" to={`/vr/${recommendedLayout.id}`}>
               <Cuboid size={18} aria-hidden="true" />
               体验 3D 看房
             </Link>
@@ -114,11 +121,11 @@ export function HomePage() {
               个小区
             </span>
             <span>
-              <strong>7</strong>
+              <strong>{layouts.length}</strong>
               个户型
             </span>
             <span>
-              <strong>3</strong>
+              <strong>{decorStyles.length}</strong>
               种装修风格
             </span>
           </div>
@@ -128,8 +135,8 @@ export function HomePage() {
           <div className="hero-photo" />
           <div className="hero-visual-card">
             <span>今日推荐</span>
-            <strong>{communities[0].name}</strong>
-            <small>{communities[0].district} · {communities[0].priceRange}</small>
+            <strong>{recommendedCommunity.name}</strong>
+            <small>{recommendedCommunity.district} · {recommendedCommunity.priceRange}</small>
           </div>
           <div className="hero-visual-note">
             <MapPinned size={18} aria-hidden="true" />
@@ -143,28 +150,7 @@ export function HomePage() {
           <span className="eyebrow">地图找房</span>
           <h2>把小区位置先看明白</h2>
         </div>
-        <div className="map-panel" aria-label="城市地图示意">
-          <div className="map-grid" />
-          <div className="map-district map-district-core">核心区</div>
-          <div className="map-district map-district-river">滨水区</div>
-          <div className="map-district map-district-green">生态区</div>
-          <div className="map-river" />
-          <div className="map-road map-road-main" />
-          <div className="map-road map-road-side" />
-          <div className="map-road map-road-loop" />
-          {communities.map((community) => (
-            <Link
-              to={`/communities/${community.id}`}
-              className={`map-pin ${community.id === "river-garden" ? "map-pin-warm" : ""}`}
-              style={{ left: `${community.mapPosition.x}%`, top: `${community.mapPosition.y}%` }}
-              key={community.id}
-              aria-label={`查看${community.name}`}
-            >
-              <MapPinned size={18} aria-hidden="true" />
-              <span>{community.name}</span>
-            </Link>
-          ))}
-        </div>
+        <AmapCommunityMap communities={communities} />
       </section>
 
       <section className="section-block">
